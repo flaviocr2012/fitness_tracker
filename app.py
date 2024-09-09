@@ -1,13 +1,16 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+
+from models import db
 
 app = Flask(__name__)
-
-# Configurações do banco de dados
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///fitness.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+db.init_app(app)
+
+# Crie as tabelas
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def home():
