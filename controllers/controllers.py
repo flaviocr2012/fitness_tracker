@@ -1,38 +1,37 @@
 from flask import Blueprint, request, jsonify
-from models import db, User, Activity
+from services.user_service import UserService
+from services.activity_service import ActivityService
 
-# Criando um Blueprint para as rotas de usuários e atividades
 main = Blueprint('main', __name__)
 
 @main.route('/add_user', methods=['POST'])
 def add_user():
     data = request.get_json()
-    new_user = User(username=data['username'], email=data['email'])
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify({"message": "User added"}), 201
+    response, status = UserService.add_user(data)
+    return jsonify(response), status
 
 @main.route('/add_activity', methods=['POST'])
 def add_activity():
     data = request.get_json()
-    user = User.query.filter_by(username=data['username']).first()
+    user = UserService.get_user_by_username(data['username'])
     if not user:
         return jsonify({"error": "User not found"}), 404
-    new_activity = Activity(name=data['name'], duration=data['duration'], calories_burned=data['calories_burned'],
-                            user_id=user.id)
-    db.session.add(new_activity)
-    db.session.commit()
-    return jsonify({"message": "Activity added"}), 201
+    response, status = ActivityService.add_activity(data, user)
+    return jsonify(response), status
 
 @main.route('/user/<username>/activities', methods=['GET'])
 def get_user_activities(username):
-    user = User.query.filter_by(username=username).first()
+    user = UserService.get_user_by_username(username)
     if not user:
         return jsonify({"error": "User not found"}), 404
 
-    activities = Activity.query.filter_by(user_id=user.id).all()
+    activities = ActivityService.get_activities_by_user(user.id)
     activities_list = [
-        {"name": activity.name, "duration": activity.duration, "calories_burned": activity.calories_burned} for activity
-        in activities]
+        {
+            "name": activity.name,
+            "duration": activity.duration,
+            "calories_burned": activity.calories_burned
+        } for activity in activities
+    ]
 
     return jsonify({"user": user.username, "activities": activities_list})
