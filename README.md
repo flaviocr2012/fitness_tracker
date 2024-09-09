@@ -25,6 +25,11 @@ The goal is to allow users to register and monitor their physical activities, su
 * ```POST /add_activity```: Adds a new activity for an existing user.
 * ```GET /user/<username>/activities```: Returns all activities of a user.
 
+![Screenshot from 2024-09-09 17-09-48](https://github.com/user-attachments/assets/fb2734e2-c112-4e3b-90fc-41c689aeabff)
+
+![Screenshot from 2024-09-09 17-09-24](https://github.com/user-attachments/assets/b661f978-2773-4f87-bc4e-a3d6e1d04426)
+
+
 ## **Next Steps**
 
 * Implement user authentication and authorization.
