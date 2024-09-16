@@ -30,7 +30,9 @@ def get_user_activities(username):
         {
             "name": activity.name,
             "duration": activity.duration,
-            "calories_burned": activity.calories_burned
+            "calories_burned": activity.calories_burned,
+            "distance": activity.distance,
+            "exercise_type": activity.exercise_type,
         } for activity in activities
     ]
 

@@ -23,6 +23,8 @@ class Activity(db.Model):
     name = db.Column(db.String(100), nullable=False)
     duration = db.Column(db.Integer, nullable=False)  # duração em minutos
     calories_burned = db.Column(db.Integer, nullable=False)
+    distance = db.Column(db.Float, nullable=True)  # nova métrica, em quilômetros
+    exercise_type = db.Column(db.String(50), nullable=True)  # nova métrica, tipo de exercício
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)

@@ -9,6 +9,8 @@ class ActivityService:
             name=data['name'],
             duration=data['duration'],
             calories_burned=data['calories_burned'],
+            distance=data.get('distance'),
+            exercise_type=data.get('exercise_type'),
             user_id=user.id
         )
         ActivityRepository.add_activity(new_activity)
